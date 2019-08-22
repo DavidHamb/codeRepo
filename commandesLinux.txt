@@ -1,0 +1,241 @@
+###################################
+###   Commandes console LINUX   ###
+###################################
+
+Ouvrir la console
+-----------------
+Ctrl + Alt + F1 à F6 				Attention pour la saisie : le pavé numérique est inopérant
+Ctrl + Alt + F7 					: Retour au mode graphique
+
+Commandes utiles
+-----------------------------------
+pwd									: Afficher le répertoire courant
+maCommande > nomDeMaCommance.txt 	: Enregistrer le résultat d'une commande dans un fichier texte
+date 								: Affiche la date
+ls 									: Lister les éléments du répertoire actuel
+ls -a 								: idem mais avec les éléments cachés
+ls --all							: idem mais le paramètre est en version longue
+ls -l 								: affiche la liste détaillée
+ls -lh 								: meilleure lisibilité de la taille des fichiers
+ls -lt 								: trier par date de dernière modification
+ls -ltr 							: renverse l'ordre d'affichage
+ls -i 								: affiche la référence inode (contenu)
+"2 x la tabulation" 				: pour l'autocomplétion
+history 							: L'historique des commandes
+Ctrl + R 							: Recherche d'une ancienne commande
+clear 								: vide la console
+exit 								: quitte la console
+which maCommande 					: emplacement du programme relatif à la commande passée en paramètre
+
+Navigation
+-----------
+cd dossierDeDestination 			: naviguer dans les dossiers
+cd .. 								: aller au dossier parent
+cd / 								: aller dans la racine
+"cd ~" ou "cd"						: aller dans mon dossier home
+"touche Tab"(1X ou 2X) 				: pour l'autocomplétion
+du -h 								: taille du dossier (et de ses sous-dossiers), lisible pour les humains 
+du -a 								: taille des dossiers ET des fichiers
+du -sh 								: taille totale lisible
+
+Raccourcis clavier utiles
+-------------------------
+Ctrl + L 							: vide la console
+Ctrl + D 							: quitte la console
+Ctrl + A 							: Ramène le curseur au début de la commande
+Ctrl + E 							: ramène le curseur à la fin de la ligne de commande
+Ctrl + U 							: supprime tout ce qui se trouve à gauche du curseur
+Ctrl + K 							: supprime tout ce qui se trouve à droite du curseur
+Ctrl + W 							: supprime le premier mot situé à gauche du curseur
+Ctrl + Y 							: « collera » le texte que vous venez de supprimer
+
+Manipuler les fichiers
+-----------------------
+cat nomDuFichier						: afficher le contenu
+cat -n nomDuFichier 					: en numérotant les lignes
+less nomDuFichier 						: afficher le contenu du fichier page par page ("entrée" = + 1 ligne, "espace" = + 1 page, "q" = quitter)
+h 										: aide lors de l'exécution de la commande "less"
+head nomDuFichier 						: affiche le début du fichier
+head -n 3 nomDuFichier 					: affiche les trois premières lignes du fichier
+tail nomDuFichier 						: affiche la fin du fichier
+tail -n 10 nomDuFichier 				: affiche les dix dernières lignes du fichier
+tail -f 								: suit les modifications du fichier (affichage en live) --> TRES UTILE pour voir les connexions en temps réel sur des fichiers de log
+"Ctrl + C" 								: Arrête la commande
+grep monPattern monFichier 				: rechercher du contenu dans un fichier
+touch nomDuFichier 						: créer un fichier
+touch monFichier monAutreFichier 		: créer plusieurs fichiers en même temps
+touch "mon fichier" 					: utilisation de guillemets pour créer un nom contenant un espace
+mkdir monDossier 						: créer un dossier
+cp monFichier maCopie 					: copier le fichier monFichier en créant maCopie
+cp monFichier monDossier/ 				: spécifier dans quel dossier on le copie
+cp monFichier monDossier/maCopie 		: spécifier le dossier et le nouveau nom
+cp -R monDossier 						: copier un dossier et son contenu
+cp *.jpg monDossier/					: copier tous les fichiers image dans monDossier
+cp so* monDossier/ 						: copier tous les fichiers qui commencent par "so" dans monDossier
+mv monFichier monDossier/ 				: déplace monFichier vers monDossier
+mv monFichier monFichier2 				: renommer un fichier
+mv monFichier monDossier/monFichier2 	: déplacer et renommer un fichier
+rm monFichier 							: supprimer un fichier ou un dossier
+rm -i monFichier 						: supprimer un fichier ou un dossier (avec demande de confirmation)
+rm -v monFichier 						: supprimer en mode verbose
+rm -r 									: supprime un dossier et tout ce qu'il contient
+ATTENTION rm -rf /*						: tue un pc/serveur en effaçant tout depuis la racine (nécessite des droits root)
+ln fichier1 fichier2 					: créer un lien physique entre deux fichiers (ils partagent le même inode/contenu)
+ln -s fichier1 fichier2 				: crée un lien symbolique (raccourci), nb : les liens symboliques fonctionnent aussi vers des dossiers
+maCommande > monFichier.txt 			: enregistrer le résultat d'une commande dans un fichier
+
+Utilisateurs et droits
+-----------------------
+Par sécurité, Ubuntu est la seule distribution à ne pas autoriser de se loguer en root
+sudo maCommande							: permet d'être en root temporairement pour l'exécution d'une commande nécessitant des droits d'administrateur
+sudo su 								: passer en root indéfiniment
+exit (ou "Ctrl + D") 					: quitte le mode root
+adduser nouvelUtilisateur 				: ajouter un nouveau compte utilisateur
+passwd monCompteUtilisateur 			: changer le mot de passe d'un utilisateur
+deluser --remove-home nomUtilisateur 	: supprime un compte utilisateur et son dossier
+NB : pour les autres distri adduser=useradd deluser=userdel
+addgroup monGroup 									: créer un groupe
+usermod 											: éditer un utilisateur au sein d'un groupe
+usermod -g monGroupe monUtilisateur 				: changer un utilisateur de groupe
+usermod -G groupe1,groupe2,groupe3 monUtilisateur 	: insérer un utilisateur dans plusieurs groupes
+usermod -aG nouveauGroupe monUtilisateur 			: ajouter un nouveau groupe pour un utilisateur
+delgroup monGroup 									: supprimer un groupe
+NB : autres dist : groupadd, groupdel
+chown nouveauProprio monFichier 					: changer le propriétaire d'un fichier
+chgrp nouveauGroupe monFichier 						: changer le groupe propriétaire d'un fichier
+chown nouveauProprio:nouveauGroupe monFichier 		: changer le propriétaire et le groupe d'un fichier
+chown -R nouveauProprio:nouveauGroupe monDossier 	: transférer de manière récursive (cad + tout son contenu) un dossier vers un nouveau proprio et un nouveau groupe
+chmod 777 monFichier 								: accorder tous les droits à tout le monde
+chmod 600 monFichier 								: accorder tous les droits à l'utilisateur uniquement
+chmod 000 monFichier 								: aucun droit pour personne (sauf root)
+chmod 444 monFichier 								: uniquement droit de lecture pour tout le monde (utilisateur, groupe et autres)
+chmod 222 monFichier 								: uniquement droit d'écriture pour tout le monde
+chmod 111 monFichier 								: uniquement droit d'exécution
+chmod 555 monFichier 								: droit de lecture et d'exécution
+chmod -R 700 monDossier 							: Tous droits pour user sur le dossier et ses fichiers (récursivité), et aucun droit aux autres et au groupe
+
+chmod g+w monFichier 								: ajouter droit d'écriture pour le groupe
+chmod u-r monFichier 								: retirer le droit de lecture pour l'utilisateur
+chmod o+x monFichier 								: ajouter droit d'exécution pour les autres
+chmod go-rx monFichier 								: retirer les droits de lecture et d'exécution au groupe et aux autres 
+chmod g+r,u+w monFichier 							: ajouter plus finement des droits en fonction du type de destinataire
+chmod +x monFichier 								: ajouter le droit d'exécution à tout le monde
+chmod u=rwx monFichier 								: affecter tous les droits au propriétaire
+
+nano
+----
+nano monFichier 									: ouvrir un fichier avec nano
+nano -m 											: autorise la souris
+nano -i 											: indentation automatique (utile pour le codage)
+nano -A 											: active le retour intelligent à la ligne (utile pour le codage)
+.nanorc 											: fichier de configuration de nano
+/etc/nanorc 										: emplacement du fichier de configuration générale (sert d'expl, uniquement commentaire # --> possible de décommenter)
+.bashrc 											: fichier de configuration de la console
+
+installation de programmes
+---------------------------
+/etc/apt/sources.list 								: fichier gérant les dépôts utilisés par l'ordinateur (éditable en mode root)
+via GUI : paramètres système > 						: choisir le serveur le plus performant pour moi
+	Logiciels et mise à jour > 
+	Télécharger depuis : > 
+	sélectionner le meilleur système
+
+apt-get update 										: bonne installation en trois commandes
+apt-cache search maRecherche (NB : optionnel, si on ne connaît pas bien le nom recherché)
+apt-get install monPaquet 
+
+apt-cache show monPaquet 							: description du paquet
+apt-get install monPaquet1 monPaquet2 monPaquet3 	: installer plusieurs paquets d'un coup
+apt-get remove monPaquet 							: désinstaller un paquet
+apt-get autoremove monPaquet 						: désintalle un paquet ET ses dépendances
+apt-get upgrade 									: mise à jour des paquets existants
+
+RTFM
+----
+man maCommande 										: documentation relative à une commande
+q : quitter
+/ : recherche
+apropos maPossibleCommande 							: recherche sur une éventuelle commande dans toutes les pages du manuel
+maCommande -h 										: Lecture parfois plus facile que le man
+whatis maCommande 									: man allégé
+
+Rechercher des fichiers
+------------------------
+Recherche via une DB :
+locate nomDuFichier 								: localiser un fichier par son nom ou une partie de son nom
+sudo updatedb 										: mettre à jour la base de données contenant les fichiers et leur localisation
+
+Recherche directe et fine (sur le nom exact): --> syntaxe = find "où" "quoi" "que faire avec"
+find -name "monFichier" 							: recherche le nom précisé dans le répertoire courant
+find nomDossier -name "monFichier" 					: recherche dans un autre répertoire que la répertoire courant
+find -name "monFichier*" 							: recherche avec une variante sur le nom
+find ~ -size +10M 									: rechercher dans mon home tous les fichiers excédant 10 MB
+find -name ".txt" -atime 6 							: les fichiers textes pour lesquels le dernier accès date de moins 6 jours
+find -name ".txt" +atime 6 							: les fichiers textes pour lesquels le dernier accès date de plus 6 jours
+find -name "monNom" -type d 						: rechercher uniquement des dossiers
+find -name "monNom" -type f 						: rechercher uniquement des fichiers
+find -name "*.jpg" -delete 							: supprimer tous les fichier jpg
+find -name ".jpg" -exec maCommande {} \; 			: appliquer une commande à tous les fichiers trouvés ({} remplace les noms des fichiers)
+
+
+Divers
+-------
+alsamixer 											: paramétrage du son
+/opt/lampp/lampp start 								: démarrer le package XAMPP (en root)
+/opt/lampp/lampp stop								: arrêter le package XAMPP (en root)
+/opt/lampp/htdocs 									: localisation des fichiers sur le serveur (y créer le répertoire du projet)
+alias ls='ls -la' 									: permet de simplifier une commande
+
+Filtrer des données
+-------------------
+grep monTexte monFichier 		: rechercher du texte dans un fichier
+grep "ma Phrase" monFichier 	: expression à chercher
+grep -i monTexte monFichier 	: ne tient pas compte de la casse
+grep -n monTexte monFichier 	: affiche le numéro de ligne
+grep -v monTexte monFichier 	: recherche inversée (ignore le mot donné)
+grep -r monTexte /monDossier 	: recherche récursive (regrep = commande équivalente)
+Utilisation avec des expressions régulières
+--------------------------------------------
+.	Caractère quelconque
+^	Début de ligne
+$	Fin de ligne
+[]	Un des caractères entre les crochets
+?	L'élément précédent est optionnel (peut être présent 0 ou 1 fois)
+*	L'élément précédent peut être présent 0, 1 ou plusieurs fois
++	L'élément précédent doit être présent 1 ou plusieurs fois
+|	Ou
+()	Groupement d'expressions
+
+grep -E monRegex monFichier 	: fait comprendre à grep qu'on utilise une expression régulière (équivaut à egrep)
+
+Trier les lignes d'un fichier
+-----------------------------
+sort monFichier 					: tri des lignes par ordre alphabétique
+sort -o monFichierTrié monFichier 	: écrit un nouveau fichier avec le résultat
+sort -r monFichier 					: trier en ordre inverse
+sort -R monFichier 					: trier aléatoirement
+sort -n monFichier 					: trier les nombres
+
+Compter le nombre de lignes
+---------------------------
+wc monFichier 						: compte le nombre de lignes, le nombre de mots et le nombre d'octets
+wc -l monFichier 					: compte le nombre de lignes
+wc -w monFichier 					: compte le nombre de mots
+wc -c monFichier 					: compte le nombre d'octets
+wc -m monFichier 					: compte le nombre de caractères
+
+Supprimer les doublons
+----------------------
+uniq monFichier 					: supprime les doublons (Attention : nécessite un triage préalable avec sort)
+uniq monFichier monNouveauFichier	: stocker la liste sans doublon dans un nouveau fichier
+uniq -c monFichier 					: compte le nombre d'occurrences
+uniq -d monFichier 					: affiche les liste en double
+
+Couper une partie de fichier
+-----------------------------
+cut -c 2-5 monFichier 	: reprend du deuxième au cinquième caractère de chaque ligne
+cut -c -3 monFichier 	: reprend du premier au troisième caractère de chaque ligne 
+cut -c 3- monFichier 	: reprend la ligne à partir du 3eme caractère
+cut -d ; -f 1-n 		: coupe à l'aide d'un délimiteur (exempl pour un csv), ici le ";". Garde les champs/colonnes 1 à n
+cut -d ; -f 1,n 		: coupe à l'aide d'un délimiteur (exempl pour un csv), ici le ";". Garde les champs/colonnes 1 et n
+

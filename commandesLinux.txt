@@ -26,6 +26,8 @@ Ctrl + R 							: Recherche d'une ancienne commande
 clear 								: vide la console
 exit 								: quitte la console
 which maCommande 					: emplacement du programme relatif à la commande passée en paramètre
+stat monFichier 					: donne des infos sur le fichier entré en paramètre
+file monFichier 					: idem
 
 Navigation
 -----------
@@ -185,6 +187,7 @@ alsamixer 											: paramétrage du son
 /opt/lampp/lampp stop								: arrêter le package XAMPP (en root)
 /opt/lampp/htdocs 									: localisation des fichiers sur le serveur (y créer le répertoire du projet)
 alias ls='ls -la' 									: permet de simplifier une commande
+echo "ma Phrase" 									: permet d'afficher du texte 
 
 Filtrer des données
 -------------------

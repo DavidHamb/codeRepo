@@ -242,3 +242,8 @@ cut -c 3- monFichier 	: reprend la ligne à partir du 3eme caractère
 cut -d ; -f 1-n 		: coupe à l'aide d'un délimiteur (exempl pour un csv), ici le ";". Garde les champs/colonnes 1 à n
 cut -d ; -f 1,n 		: coupe à l'aide d'un délimiteur (exempl pour un csv), ici le ";". Garde les champs/colonnes 1 et n
 
+Flux de redirection
+--------------------
+maCommande > monNouveauFichier 	: redirige le résultat vers un fichier (écrase)
+maCommande >> monFichier 		: redirige le résultat à la fin d'un fichier (n'écrase pas)
+

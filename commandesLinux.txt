@@ -244,6 +244,25 @@ cut -d ; -f 1,n 		: coupe à l'aide d'un délimiteur (exempl pour un csv), ici l
 
 Flux de redirection
 --------------------
-maCommande > monNouveauFichier 	: redirige le résultat vers un fichier (écrase)
-maCommande >> monFichier 		: redirige le résultat à la fin d'un fichier (n'écrase pas)
+maCommande > monNouveauFichier 				: redirige le résultat vers un fichier (écrase)
+maCommande >> monFichier 					: redirige le résultat à la fin d'un fichier (n'écrase pas)
+maCommande > monFichier 2> erreurs.log 		: rediriger les erreurs (le nom erreurs.log est donné par moi)
+maCommande > monFichier 2>> erreurs.log 	: rediriger les erreurs (le nom erreurs.log est donné par moi), avec un append
+maCommande > monFichier 2>&1 			 	: envoyer les erreurs et les sorties standard vers un fichier unique
+maCommande >> monFichier 2>&1 			 	: envoyer les erreurs et les sorties standard vers un fichier unique, avec un append
+maCommande < monFichier 					: utiliser le contenu d'un fichier comme paramètre
+maCommande << STOP 							: saisie progressive de données au clavier (STOP définit la fin de la série de saisies)
+maCommande << STOP > monFichier 2>&1		: les données saisies et leur traitement seront inscrites dans un fichier (ainsi que les erreurs)
+maCommande1 monFichier | maCommande2 		: Chainer des commandes
 
+Surveiller l'activité du système
+--------------------------------
+w 				: Etat des lieux, qui fait quoi ?
+uptime 			: affiche la durée de fonctionnement de la machine (exemple : up 1:11)
+tload 			: % de charge du processeur si > que le nombre de core du processeur, alors l'ordinateur est surchargé (charge sur 1, 5 et 15 min)
+who 			: liste des connectés
+ps 				: liste statique des processus
+ps -ef 			: liste des processus lancés par tous les utilisateurs
+ps -ejH 		: Affiche les processus en arbre
+ps -u monNom 	: liste des processus lancés par l'utilisateur mentionné
+top 			: liste dynamique des processus (q = quitter, h = afficher l'aide)

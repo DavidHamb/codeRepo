@@ -257,12 +257,29 @@ maCommande1 monFichier | maCommande2 		: Chainer des commandes
 
 Surveiller l'activité du système
 --------------------------------
-w 				: Etat des lieux, qui fait quoi ?
-uptime 			: affiche la durée de fonctionnement de la machine (exemple : up 1:11)
-tload 			: % de charge du processeur si > que le nombre de core du processeur, alors l'ordinateur est surchargé (charge sur 1, 5 et 15 min)
-who 			: liste des connectés
-ps 				: liste statique des processus
-ps -ef 			: liste des processus lancés par tous les utilisateurs
-ps -ejH 		: Affiche les processus en arbre
-ps -u monNom 	: liste des processus lancés par l'utilisateur mentionné
-top 			: liste dynamique des processus (q = quitter, h = afficher l'aide)
+w 						: Etat des lieux, qui fait quoi ?
+uptime 					: affiche la durée de fonctionnement de la machine (exemple : up 1:11)
+tload 					: % de charge du processeur si > que le nombre de core du processeur, alors l'ordinateur est surchargé (charge sur 1, 5 et 15 min)
+who 					: liste des connectés
+ps 						: liste statique des processus
+ps -ef 					: liste des processus lancés par tous les utilisateurs
+ps -ejH 				: Affiche les processus en arbre
+ps -u monNom 			: liste des processus lancés par l'utilisateur mentionné
+top 					: liste dynamique des processus (q = quitter, h = afficher l'aide)
+"Ctrl"+"C" 				: arrêt d'un programme console
+kill PID 				: tuer un programme fonctionnant en arrière plan (récupérer le PID avec un ps ou un top)
+kill PID PID PID 		: tuer plusieurs processus
+kill -9 PID 			: arrêt immédiat du processus (en cas de non réponse du programme)
+kill all nomProcessus 	: arrêter plusieurs processus (en les désignant par leur nom)
+sudo halt 				: arrêt de l'ordi
+sudo reboot 			: redémarrager de l'ordi
+
+Exécuter des programmes en arrière-plan
+---------------------------------------
+maCommande & 		: Exécuter une tâche en arrière plan (affiche le numéro de tâche et son PID)
+nohup maCommande 	: détacher le processus de la console (s'exécute donc même si l'on ferme la console) 
+CRTL + Z 			: met en pause l'exécution d'un programme
+bg 					: glisse un processus en pause vers l'arrière plan
+jobs 				: affiche les processus tournant en arrière-plan
+fg 					: reprendre un processus en avant-plan
+fg %2 				: reprendre le processus n° 2 en avant-plan (numéro de processus, pas PID)

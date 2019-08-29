@@ -278,8 +278,39 @@ Exécuter des programmes en arrière-plan
 ---------------------------------------
 maCommande & 		: Exécuter une tâche en arrière plan (affiche le numéro de tâche et son PID)
 nohup maCommande 	: détacher le processus de la console (s'exécute donc même si l'on ferme la console) 
-CRTL + Z 			: met en pause l'exécution d'un programme
-bg 					: glisse un processus en pause vers l'arrière plan
+CRTL + Z 			: met en pause l'exécution d'un programme et le passe en arrière plan
+bg 					: glisse un processus en pause vers l'arrière plan et le met en état running
 jobs 				: affiche les processus tournant en arrière-plan
 fg 					: reprendre un processus en avant-plan
 fg %2 				: reprendre le processus n° 2 en avant-plan (numéro de processus, pas PID)
+
+Exécuter un programme à une heure différée
+------------------------------------------
+date "+%H:%M:%S" 			: personnaliser l'affichage d'une date (ici : heure, minutes et secones)
+date "+%H:%M:%S" 			: personnaliser l'affichage d'une date (seule la lettre qui suit le "%" est interprétée)
+date "+Bienvenue en %Y" 	: "bienvenue en 2019"
+sudo date MMDDhhmmYYYY 		: modifier la date
+--- Planification d'une tâche ponctuelle -----
+at HH:MM 									-- ou at HH:MM tomorrow ou at HH:MM 10/15/2019 (format de date US)
+écrire la commande dans le prompt			--
+CTRL + D 									--
+----------------------------------------------
+at now +5 minutes 							: pour exécuter la commande après un certain délais (ou "hours", "days", "weeks", "months", "years")
+atq 										: liste des jobs en attente
+atrm 13 									: supprimer le job n° 13 
+maCommande1; maCommande2 					: simplement en chaîner des commandes indépendantes
+maCommande1; sleep 10; maCommande2 			: fait une pause de 10 sec entre l'exécution des deux commandes
+maCommande1; sleep 10m; maCommande2 		: fait une pause de 10 minutes entre l'exécution des deux commandes
+maCommande1; sleep 10h; maCommande2 		: fait une pause de 10 heures entre l'exécution des deux commandes
+maCommande1; sleep 10d; maCommande2 		: fait une pause de 10 jours entre l'exécution des deux commandes
+maCommande1 && sleep 10 && maCommande2 		: l'enchaînement s'arrête en cas d'erreur
+-----------------------------------------------------------------------------
+crontab (liste des programmes qui doivent s'éxécuter sur une base régulière)
+-----------------------------------------------------------------------------
+NB : configuration --> ajouter la ligne suivante à la fin du .bashrc : export EDITOR=nano (rouvrir le terminal pour que la modif soit prise en compte)
+crontab -l 	: affiche la crontab de l'utilisateur
+crontab -e 	: éditer la crontab (l'éditeur de texte par défaut s'ouvre)
+
+
+
+

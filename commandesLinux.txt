@@ -311,6 +311,18 @@ NB : configuration --> ajouter la ligne suivante à la fin du .bashrc : export E
 crontab -l 	: affiche la crontab de l'utilisateur
 crontab -e 	: éditer la crontab (l'éditeur de texte par défaut s'ouvre)
 
+Communication sécurisée SSH
+----------------------------
+Installer le programme openssh-server (ouvert à chaque démarrage)
+sudo /etc/init.d/ssh start 		: lancement du serveur ssh
+sudo /etc/init.d/ssh stop 		: arrêt du serveur ssh
+/etc/ssh/ssh_config 			: fichier de configuration ssh
+sudo /etc/init.d/ssh reload 	: chargement de la nouvelle configuration lorsque le fichier de configuration a été modifié
+ssh monLogin@monIP 				: connecter l'ordinateur au serveur 
+www.whatismyip.com 				: identifier l'IP sur le net
+ifconfig 						: identifier son ip sur le réseau local
+logout 							: quitter la connexion
+
 
 
 

@@ -322,6 +322,10 @@ ssh monLogin@monIP 				: connecter l'ordinateur au serveur
 www.whatismyip.com 				: identifier l'IP sur le net
 ifconfig 						: identifier son ip sur le réseau local
 logout 							: quitter la connexion
+--------------------------------------------
+Pour Windows : utiliser le programme putty
+--------------------------------------------
+
 
 
 

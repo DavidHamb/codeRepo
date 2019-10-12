@@ -326,7 +326,304 @@ logout 							: quitter la connexion
 Pour Windows : utiliser le programme putty
 --------------------------------------------
 
+Transferts de fichiers
+-----------------------
+wget adresseDuLien 											: téléchargement d'un fichier
+Ctrl + C 													: suspendre un téléchargement
+wget -c adresseDuLien 										: reprise d'un téléchargement suspendu
+wget --background -c 										: télécharger un fichier en tâche de fond
+scp monFichierLocal monLogin@monIP:monDossierDestination 	: transfert sécurisé d'un fichier locall vers un autre ordinateur du réseau
+scp monLogin@monIP:monFichier . 							: copier un fichier situé sur le serveur sur mon répertoire courant local
+scp -P 1234 monLogin@monIP:monFichier . 					: préciser le port si le serveur ne se trouve pas sur le port standard 22
+ftp adresseDuServeurFtp 									: se connecter à un serveur FTP (on y navigue aussi en ligne de cmd)
+ftp> get monFichier 										: récupérer un fichier sur un serveur FTP
+ftp> put monFichier 										: déposer un fichier sur un serveur FTP
+ftp> !maCommande 											: Exécuter sur mon local lorsqu'on est en connexion avec un serveur FTP
+ftp> quit 													: quitter la connexion ftp  
+sftp adresseDuServeurSFTP 									: connexion à un service ftp sécurisé
+rsync -arv dossierASauvegarder dossierDestination 			: sauvegarde intelligence (synchronisée) d'un répertoire (compare les deux répertoires)
+rsync -arv --delete dossierASauvegarder dossierDestination 	: sauvegarde intelligence (synchronisée) d'un répertoire, avec supression des excédents
 
+Analyser le réseau avec un pare-feu
+------------------------------------
+host monIp ou monNomDeDomaine 	: infos sur IP, serveurs, noms de domaines d'un site
+sudo nano /etc/hosts 			: fichier de correspondance entre ip et noms de domaines (alternative locale aux serveurs DNS)
+whois 							: infos sur le nom de domaine
+ifconfig 						: liste des interfaces réseaux (lo = boucle locale)
+ifcongig monInterface down 		: désactiver une interface
+ifconfig monInterface up 		: réactiver une interface
+netstat 						: statistiques sur le réseau
+netstat -i 						: statistiques sur les interfaces réseaux
+netstat -uta 					: liste de toutes les connexions ouvertes (listen = en attente de connexion, de recevoir des données)
+netstat -utan 					: avec les numéros de port (22 pour ssh, 80 pour le web -www-, 21 pour ftp)
+netstat -lt 					: liste des connexions en état d'écoute (quels ports de serveurs sont-ils susceptibles d'être utilisés pour le moment)
+netstat -s 						: statistiques réseau résumées
 
+Pare-feu iptables (s'utilise en root)
+-------------------------------------
+iptables -L 				: afficher les règles en vigueur (chain input = trafic entrant, chain output = trafic sortant)
+iptables -L --line-numbers 	: idem avec numérotation des lignes
+iptables -F   				<-- Attention ! Réinitialise toutes les règles iptables !
+iptables -A myChain 				: ajoute une règle en fin de liste pour lachainindiquée (INPUTouOUTPUT, par exemple).
+iptables -D chain rulenum 			: supprime la règle n° rulenumpour lachainindiquée.
+iptables -I chain rulenum 			: insère une règle au milieu de la liste à la position indiquée parrulenum. 
+iptables -R chain rulenum 			: remplace la règle n° rulenumdans lachainindiquée.
+iptables -F chain 					: vide toutes les règles de lachainindiquée. Cela revient à supprimer toutes les règles une par une pour cettechain.
+iptables -P chain regle 			: modifie la règle par défaut pour lachain. 
 
+iptables -A (chain) -p (protocole) --dport (port) -j (décision) : syntaxe générale
+Quelques exemples (ici juste pour l'input):
+iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+iptables -A INPUT -p tcp --dport www -j ACCEPT
+iptables -A INPUT -p tcp --dport imap2 -j ACCEPT
+
+iptables -A INPUT -p icmp -j ACCEPT 	: autoriser les ping (protocome icmp) sur tous les ports
+
+Les règles suivantes permettent d'assouplir le pare-feu et de le rendre utilisable
+iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+iptables -P INPUT DROP : refuser toutes les autres connexions par défaut (sinon les règles précédentes ne servent à rien)
+
+ATTENTION : les règles devront être inscrites dans un script pour être lancées au démarrage
+
+Compiler un programme depuis ses sources (.deb, lorsque apt-get ne s'appliqua pas pour une installation)
+---------------------------------------------------------------------------------------------------------
+et si pas de .deb disponible : compiler soi-même (voir les instructions du site du logiciel) :
+il faut alors décompresser le paquet télécharger et se rendre dans le répertoire créé pour lancer "./configure"
+la configuration affiche éventuellement des erreurs à corriger (le plus souvent installer des dépendances manquantes)
+puis lancer la commande "make" (la compilation est lancée)
+puis : sudo make install (l'installation se fait)
+
+VIM
+---
+vim 		: lancer le logiciel
+vimtutor 	: tutoriel
+
+vim
+----
+i 				: insérer du texte
+0 				: début de ligne
+$ 				: fin de ligne
+h,j,k,l 		: déplacements
+w 				: se déplacer de mot en mot
+:w monFichier 	: enregistrer le fichier
+:q 				: quitter
+:q! 			: forcer la sortie
+:wq 			: enregistrer puis quitter
+x 				: effacer (mode interactif)
+4x 				: effacer quatre lettres suivant le curseur
+dd 				: effacer (couper) un ligne (mode interactif)
+2dd 			: effacer (couper) deux lignes (mode interactif)
+dw 				: supprimer un mot
+d3w 			: supprimer les trois prochains mots
+d0 				: supprimer vers le début de la ligne
+d$ 				: supprimer vers la fin de la ligne
+yy 				: copier une ligne en mémoire
+yw 				: copier un mot en mémoire
+y$ 				: copier jusqu'à la fin de la ligne en mémoire
+p 				: coller la ligne/le mot/... en mémoire
+8p 				: coller à huit reprises
+rs 				: remplacer un caractère par s
+Rsalut 			: mode remplacement, permet de remplacer par un mot entier
+u 				: annuler un changement
+4u 				: annuler les quatre derniers changements
+ctrl + R 		: annuler une annulation
+gg 				: 1ère ligne
+G 				: dernière ligne
+ctrl + G 		: affiche en bas de l'écran le numéro de la ligne et l'état du défilement
+7G 				: aller à la 7ème ligne 
+/monMot 		: rechercher un mot
+n 				: match suivant
+N 				: match précédent
+?monMot 					: recherche à partir du début du fichier 
+:s/ancienMot/nouveauMot 	: remplacer un mot dans une ligne
+%s/ancienMot/nouveauMot/g 	: remplace toutes les occurences (g) dans l'ensemble du fichier
+:r monFichierAInserer 		: insère le contenu d'un fichier
+:sp 						: découpage horizontal de l'écran (Viewport)
+:vsp 						: découpage vertical de l'écran
+ctrl w (X2) 				: passer d'un viewport à l'autre
+:!maCommande 				: lancer une commande externe
+--------------
+options VIM
+--------------
+copier vimrc dans son dossier personnel sous le nom .vimrc
+éditer le fichier vimrc (utiliser les uncomment peut être facile et utile)
+utile : coloration de la syntaxe
+utile : background = dark pour une coloration syntaxique adaptée aux fonds noirs
+utile : ajouter l'option set number
+utile : ajouter l'option set showcmd
+utile : set ignorecase (pour les recherches)
+utile : set mouse=a (active le support de la souris)
+
+###############
+Scripts Shell
+###############
+pt-get install ksh 	: installer un nouveau shell (ici ksh)
+chsh 				: changer le shell par défaut après l'installation (renseigner l'emplacement du programme, ici /bin/ksh)
+Créer un fichier texte (par convention avec l'extension .sh)
+contenu du fichier shell
+------------------------
+#!/bin/bash 	: permet de charger le bon shell (car les codes varient d'un shell à l'autre)
+# ceci est un commentaire dans un shell
+
+./monScript.sh 							: exécution d'un script shell (en s'assurant de bien avoir les droits d'exécution)
+bash -x monScript.sh 					: lancer en mode déboguage
+sudo cp ./monScript.sh /usr/local/bin 	: créer sa propre commande
+sudo cp ./monScript.sh /usr/bin 		: Idem
+sudo cp ./monScript.sh /bin 			: Idem
+
+Variables
+---------
+maVar='monContenu' 			: déclarer une variable
+echo 'hello world' 			: afficher dans la console
+echo -e 'hello \nworld' 	: afficher dans la console avec un retour à la ligne
+echo $maVar 				: afficher une variable
+echo 'monTexte $maVar' 		: affichage littéral
+echo "monTexte $maVar" 		: bash analyse le contenu à afficher
+echo "monTexte $maVar" 		: contient une commande à exécuter lorsque maVar=`maCmd`
+read monUserInput 			: créer une saisie (echo $monUserInput : afficher cette saisie) 
+read var1 var2 var 3 		: créé plusieurs input simultanément (echo $var1 $var2 $var3 pour afficher)
+read -p 'monMessage' maVar 	: saisie avec un message prompt
+
+limiter la saisie à 5 caractères :
+---- 
+read -p 'Entrez votre login (5 caractères max) : ' -n 5 nom
+echo -e "\nBonjour $nom !"
+-t 	: ce paramètre prévoit un timer pour le read
+-s 	: ce para masque le texte saisi (utile pour un password)
+
+Effectuer des opérations mathématiques (bash n'est pas prévu pour ça)
+let "a=2"
+let "b=3"
+let "c=a+b"
+echo $c
+
+divers (linux cmd)
+------------------
+env 	: affiche les var d'environnement (ces var -en majuscule- peuvent être convoquées comme n'importe quelle var, ex $EDITOR)
+
+Paramètres des scripts shell
+----------------------------
+monScript.sh para1 para2 para3
+$# : nombre de paramètres
+$0 : nom du script
+$1 : premier paramètre
+$2 : deuxième paramètre
+etc... jusqu'à $9
+
+Tableaux
+---------
+monTableau=('maVal1','maVal2','maVal3') 	: instancier un tableau
+${monTableau[2]} 							: utilisation des index (??????????????)
+${monTableau[*]} 							: afficher tout le tableau
+
+Conditions
+-----------
+if [ monTest ] 		: attention aux espaces dans les crochets
+then
+	maCommande
+elif
+	maCommande2
+else
+	maCommande3
+fi
+
+types de tests pour les conditions :
+-------------------------------------
+$chaine1 = $chaine2 	: égalité entre deux chaînes de caractères
+$chaine1 != $chaine2 	: inégalité entre deux chaînes de caractères
+-z $chaine 				: vérifie si une chaîne est vide
+-n $chaine 				: vérifie si une chaîne est non vide
+
+$num1 -eq $num2 	: Vérifie si deux nombres sont égaux
+$num1 -ne $num2 	: vérifie si deux nombres ne sont pas égaux
+$num1 -lt $num2 	: vérifie si num1 < num2
+$num1 -le $num2 	: vérifie si num1 <= num2
+$num1 -gt $num2 	: vérifie si num1 > num2
+$num1 -ge $num2 	: vérifie si num1 >= num2
+
+-e $nomfichier 				: Vérifie si le fichier existe.
+-d $nomfichier 				: Vérifie si le fichier est un répertoire.
+-f $nomfichier 				: Vérifie si le fichier est un fichier. 
+-L $nomfichier 				: Vérifie si le fichier est un lien symbolique (raccourci).
+-r $nomfichier 				: Vérifie si le fichier est lisible 
+-w $nomfichier 				: Vérifie si le fichier est modifiable 
+-x $nomfichier 				: Vérifie si le fichier est exécutable 
+$fichier1 -nt $fichier2 	: Vérifie sifichier1est plus récent quefichier2
+$fichier1 -ot $fichier2 	: Vérifie sifichier1est plus vieux quefichier2
+
+|| ou && 	: pour effectuer plusieurs tests à la fois
+! 			: pour inverser un test (négation)
+
+ case : pour simplifier les if testés sur plusieurs conditions
+ --------------------------------------------------------------
+Example:
+case $1 in
+        "Bruno")
+                echo "Salut Bruno !"
+                ;;
+        "Michel")
+                echo "Bien le bonjour Michel"
+                ;;
+        "Jean")
+                echo "Hé Jean, ça va ?"
+                ;;
+        *)
+                echo "J'te connais pas, ouste !"
+                ;;
+esac
+
+Attention : les | et & ne sont pas doublés au sein d'un case
+exemple :
+case $1 in
+        "Chien" | "Chat" | "Souris")
+                echo "C'est un mammifère"
+                ;;
+        "Moineau" | "Pigeon")
+                echo "C'est un oiseau"
+                ;;
+        *)
+                echo "Je ne sais pas ce que c'est"
+                ;;
+esac
+
+Les boucles
+-----------
+while
+-----
+while [ monTest ]
+do
+	maCommande
+done
+
+for
+---
+for monElement in 'myVal1' 'myVal2' 'myVal3'
+do
+	maCommande
+done
+
+for plus classique
+-------------------
+for i in `seq 1 10`;
+do
+	maCommande
+done
+
+Fonctions (2 syntaxes possibles) nb: possibilité d'utiliser des para selon le système classique du shell
+--------------------------------
+maFonction ()
+
+{
+maCommande 
+}
+-----------------
+function maFonction
+
+{
+maCommande 
+}
+-----------------
+maFonction 	: appel de ma fonction
 
